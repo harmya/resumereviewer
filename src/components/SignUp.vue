@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="container">
         <h1>Sign Up</h1>
         <div class="inputs">
             <label for="name">Enter you Name</label>
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style>
-.login {
+.container {
     display: table;
     margin-top: 17vh;
     margin-left: auto;
@@ -84,4 +84,7 @@ export default {
     color: white;
     transition: 0.4s;
 }
+
+
+
 </style>
