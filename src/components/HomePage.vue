@@ -16,12 +16,11 @@
         </div>
         <div class="home">
             <h1>Upload your resume</h1>
-            <div>
-                <form action="http://localhost:3000/api/upload" method="post" enctype="multipart/form-data">
-                    <input type="file" name="fileUpload"/>
-                    <input type="submit"/>
-                </form>
+            <div class="custom-file-upload">
+                <input type="file" name="fileUpload" @change="file = $event.target.files[0]" />
             </div>
+            <br>
+            <button class="space-button" @click="submitFile()">Upload</button>
             <br>
             <p>{{fileName}}</p>
         </div>
@@ -34,6 +33,8 @@
 <script>
 
 import TopHeader from './TopHeader.vue'
+import axios from 'axios'
+
 export default {
     name:'HomePage',
     components: {
@@ -48,12 +49,21 @@ export default {
         }
     },
     methods: {
-        handleFileUpload() {
-            const input = document.querySelector('input[type="file"]')
-            this.file = input.files[0]
-            this.fileName = this.file.name
-            console.log(this.file)
-            this.submitFile()
+        submitFile() {
+            const formData = new FormData()
+            formData.append('file', this.file)
+            axios.post('http://localhost:3000/api/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log(res)
+                this.fileName = res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     },
     created() {
@@ -96,18 +106,21 @@ export default {
     transition: 0.3s;
 }
 
+
+
 .space-button {
-  background-color: #000;
+  background-color: #2d2942;
   border: none;
   border-radius: 50px;
   color: #fff;
-  font-size: 24px;
+  font-size: 15px;
   font-weight: bold;
-  padding: 16px 32px;
+  padding: 10px 20px;
   position: relative;
   overflow: hidden;
   z-index: 1;
   cursor: pointer;
+  margin-top: 10px;
 }
 .navbar {
     position: fixed;

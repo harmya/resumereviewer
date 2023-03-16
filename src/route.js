@@ -1,6 +1,7 @@
 import HomePage from './components/HomePage';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
+import ResResult from './components/ResResult';
 
 import {createRouter, createWebHistory} from 'vue-router';
 
@@ -26,6 +27,14 @@ const routes = [
         name: 'signup',
         component: SignUp,
         path: '/signup',
+        meta: {
+            transition: 'fade'
+        }
+    },
+    {
+        name: 'resresult',
+        component: ResResult,
+        path: '/result',
         meta: {
             transition: 'fade'
         }
