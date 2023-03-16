@@ -17,7 +17,7 @@
         <div class="home">
             <h1>Upload your resume</h1>
             <div class="custom-file-upload">
-                <input type="file" name="fileUpload" @change="file = $event.target.files[0]" />
+                <input type="file" name="fileUpload" @change="file = $event.target.files[0]" fileName="fileUpload" />
             </div>
             <br>
             <button class="space-button" @click="submitFile()">Upload</button>

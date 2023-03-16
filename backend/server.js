@@ -23,11 +23,13 @@ let formidable = require('formidable');
 app.post ('/api/upload', (req, res) => {
     console.log("uploading file");
     let form = new formidable.IncomingForm();
-    console.log(form);
-    form.parse(req, (err, fields, file) => {
+    //console.log(form);
+    form.parse(req, (error, fields, file) => {
+        console.log(file);
         let filepath = file.fileUpload.filepath;
+        console.log(filepath);
         let newpath = '/Users/harmyabhatt/resumeReviewer/database/uploadedResumes/' + file.fileUpload.originalFilename;
-
+        console.log(newpath);
         fs.rename(filepath, newpath, function() {
             res.write('File uploaded and moved!');
         });
@@ -97,8 +99,8 @@ const client = new MongoClient(uri)
 
 async function connectToDatabase() {
     try {
-        await client.connect()
-        await listDatabases(client)
+        //await client.connect()
+        //await listDatabases(client)
         app.listen(port, () => {
             console.log(`Server running at http://${hostname}:${port}/api`);
         });
