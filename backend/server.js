@@ -14,8 +14,35 @@ app.get ('/api', (req, res) => {
 });
 
 //route to handle user registration
-app.get('/api/login', (req, res) => {
-    res.send('Login Page');
+app.post('/api/login', async (req, res) => {
+    try {
+        loginInfo = req.body;
+        console.log(loginInfo);
+        query = { username: loginInfo.username };
+        const username_exists = await findUsername(query);
+        if (!username_exists) {
+            data = {
+                "message": "no user"
+            }
+            res.status(200).send(data);
+            return;
+        }
+        const passMatch = await matchPassword(loginInfo.password);
+        if (!passMatch) {
+            data = {
+                "message": "wrong password"
+            }
+            res.status(200).send(data);
+            return;
+        }
+        data = {
+            "message": "success"
+        }
+        res.status(200).send(data);
+    } catch (err) {
+        console.log(err.stack)
+        res.status(500).send('Server Error, Please try again later');
+    }
 });
 
 app.get('/api/signup', async (req, res) => {
@@ -68,12 +95,34 @@ async function findUsername(query) {
     console.log(`Looking for a user with the username '${query.username}'`)
     const result = await client.db("user-authentication").collection("login-information").findOne(query);
     if (result) {
-        console.log(`Found a user with the username '${username}'`);
+        console.log(`Found a user with the username '${query.username}'`);
         return true;
     } else {
-        console.log(`No user matches the username '${username}'`);
+        console.log(`No user matches the username '${query.username}'`);
         return false;
     }
+}
+async function matchPassword(password_text) {
+    console.log(`Looking for a user with the username '${query.username}'`)
+    const dataPoint = await client.db("user-authentication").collection("login-information").findOne(query);
+    password_hashed = dataPoint.password;
+    password_text = password_text;
+
+    console.log(password_hashed);
+    console.log(password_text);
+
+    const bcrypt = require('bcrypt');
+    const result = await bcrypt.compareSync(password_text, password_hashed);
+    if (result) { 
+        console.log("password matches");
+        return true;
+    }
+    else {
+        console.log("password does not match");
+        return false;
+    }
+
+
 }
 //list all databases
 async function listDatabases(client) {
