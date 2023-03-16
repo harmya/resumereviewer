@@ -72,7 +72,7 @@ export default {
                 password: hash_password
             })
             console.log(response)
-            //this.$router.push({name: 'home'})
+            this.$router.push({name: 'home'})
             
         },
         async checkUsername() {
@@ -81,14 +81,14 @@ export default {
                 this.message_username = ''
                 this.class_name = ''
                 this.disable = true
-                return
+                
             }
             if (this.username.length < 3) {
                 this.dynamic_class_username = false
                 this.message_username = 'Username must be at least 3 characters long'
                 this.class_name_username = 'error'
                 this.disable = true
-                return
+            
             }
             const usernameAlreadyExists = await axios.get('http://localhost:3000/api/signup?username=' + this.username)
             console.log(usernameAlreadyExists.data)
@@ -131,6 +131,7 @@ export default {
             } else {
                 this.dynamic_class_length = true
                 this.class_name_length = "success"
+                this.disable = false
             }
             if (this.password.match(/[A-Z]/) == null) {
                 this.dynamic_class_upper = false
@@ -139,6 +140,7 @@ export default {
             } else {
                 this.dynamic_class_upper = true
                 this.class_name_upper = "success"
+                this.disable = false
             }
             if (this.password.match(/[a-z]/) == null) {
                 this.dynamic_class_lower = false
@@ -147,6 +149,7 @@ export default {
             } else {
                 this.dynamic_class_lower = true
                 this.class_name_lower = "success"
+                this.disable = false
             }
             if (this.password.match(/[0-9]/) == null) {
                 this.dynamic_class_number = false
@@ -156,6 +159,7 @@ export default {
             else {
                 this.dynamic_class_number = true
                 this.class_name_number = "success"
+                this.disable = false
             }
             if (this.password.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/) == null) {
                 this.dynamic_class_special = false
@@ -164,6 +168,7 @@ export default {
             } else {
                 this.dynamic_class_special = true
                 this.class_name_special = "success"
+                this.disable = false
             }
         }
     }
@@ -174,7 +179,7 @@ export default {
 <style>
 .container {
     display: table;
-    margin-top: 17vh;
+    margin-top: 10vh;
     margin-left: auto;
     margin-right: auto;
     flex-direction: column;
@@ -182,7 +187,7 @@ export default {
     text-align: center;
     justify-content: center;
     height: 50vh;
-    width: 50vw;
+    width: 70vw;
     background-color: #fafafa;
 }
 .inputs {
