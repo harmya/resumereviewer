@@ -13,6 +13,8 @@
     "bcryptjs": "^2.4.3",
     "core-js": "^3.8.3",
     "cors": "^2.8.5",
+    "formidable": "^2.1.1",
+    "fs": "^0.0.1-security",
     "json": "^11.0.0",
     "mongodb": "^5.1.0",
     "node-polyfill-webpack-plugin": "^2.0.1",

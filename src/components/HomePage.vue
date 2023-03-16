@@ -14,6 +14,17 @@
             <h1>How it works?</h1>
             <p>Upload your resume and select the role you are applying for. We will review your resume and provide you with a detailed report on how you can improve your resume</p>
         </div>
+        <div class="home">
+            <h1>Upload your resume</h1>
+            <div>
+                <form action="http://localhost:3000/api/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="fileUpload"/>
+                    <input type="submit"/>
+                </form>
+            </div>
+            <br>
+            <p>{{fileName}}</p>
+        </div>
     </div>
     </transition>
     
@@ -84,9 +95,7 @@ export default {
     background-color: lightskyblue;
     transition: 0.3s;
 }
-input[type="file"] {
-    display: none;
-}
+
 .space-button {
   background-color: #000;
   border: none;

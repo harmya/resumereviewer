@@ -13,6 +13,29 @@ app.get ('/api', (req, res) => {
     res.send('Home Server');
 });
 
+app.get ('/api/upload', (req, res) => {
+    res.send('File Upload Server');
+});
+
+let fs = require('fs');
+let formidable = require('formidable');
+
+app.post ('/api/upload', (req, res) => {
+    console.log("uploading file");
+    let form = new formidable.IncomingForm();
+    console.log(form);
+    form.parse(req, (err, fields, file) => {
+        let filepath = file.fileUpload.filepath;
+        let newpath = '/Users/harmyabhatt/resumeReviewer/database/uploadedResumes/' + file.fileUpload.originalFilename;
+
+        fs.rename(filepath, newpath, function() {
+            res.write('File uploaded and moved!');
+        });
+    });
+    res.status(200).send('File uploaded successfully');
+});
+
+
 //route to handle user registration
 app.post('/api/login', async (req, res) => {
     try {
