@@ -17,11 +17,11 @@
         <div class="home">
             <h1>Upload your resume</h1>
             <div class="custom-file-upload">
-                <input type="file" name="fileUpload" @change="file = $event.target.files[0]" fileName="fileUpload" />
+                <form action="http://localhost:3000/api/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="fileUpload" id="fileUpload" @change="file = $event.target.files[0]" />
+                    <button id="upload" class="space-button" v-on:click="uploadFile()">Upload</button>
+                </form>
             </div>
-            <br>
-            <button class="space-button" @click="submitFile()">Upload</button>
-            <br>
             <p>{{fileName}}</p>
         </div>
     </div>
@@ -33,7 +33,6 @@
 <script>
 
 import TopHeader from './TopHeader.vue'
-import axios from 'axios'
 
 export default {
     name:'HomePage',
@@ -49,23 +48,23 @@ export default {
         }
     },
     methods: {
-        submitFile() {
-            const formData = new FormData()
-            formData.append('file', this.file)
-            axios.post('http://localhost:3000/api/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(res => {
-                console.log(res)
-                this.fileName = res.data
-            })
-            .catch(err => {
-                console.log(err)
-            })
+    async uploadFile() {
+        const fileUpload = document.querySelector('#fileUpload')
+        if (fileUpload.files.length <= 0) {
+            alert("Please select a file to upload")
+            return
         }
-    },
+        const formData = new FormData()
+        formData.append('fileUpload', fileUpload.files[0]);
+        await fetch('http://localhost:3000/api/upload', {
+            method: 'POST',
+            body: formData
+        })
+        console.log("File Uploaded")
+        this.$router.push({name: 'resresult'})
+        console.log("Pushed")
+    }
+},
     created() {
         console.log("Home Page")
     },

@@ -25,16 +25,15 @@ app.post ('/api/upload', (req, res) => {
     let form = new formidable.IncomingForm();
     //console.log(form);
     form.parse(req, (error, fields, file) => {
-        console.log(file);
+        
         let filepath = file.fileUpload.filepath;
-        console.log(filepath);
+        
         let newpath = '/Users/harmyabhatt/resumeReviewer/database/uploadedResumes/' + file.fileUpload.originalFilename;
-        console.log(newpath);
+        
         fs.rename(filepath, newpath, function() {
             res.write('File uploaded and moved!');
         });
     });
-    res.status(200).send('File uploaded successfully');
 });
 
 
