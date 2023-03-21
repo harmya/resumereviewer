@@ -31,9 +31,10 @@ app.post ('/api/upload', (req, res) => {
         let newpath = '/Users/harmyabhatt/resumeReviewer/database/uploadedResumes/' + file.fileUpload.originalFilename;
         
         fs.rename(filepath, newpath, function() {
-            res.write('File uploaded and moved!');
+            console.log('File uploaded and moved!');
         });
     });
+    res.status(200).send();
 });
 
 
