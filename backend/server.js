@@ -34,12 +34,24 @@ app.post ('/api/upload', (req, res) => {
         fs.rename(filepath, newpath, function() {
              console.log('File uploaded and moved!');
         });
-        res.send(
-            {
-                "message": "File uploaded successfully",
-                "newpath": newpath
-            }
-        ).status(200);
+
+        var dataToSend;
+        // spawn new child process to call the python script
+        const python = spawn('python3', ['resumeAnalysis.py']);
+        // collect data from script
+        python.stdout.on('data', function (data) {
+         console.log('Pipe data from python script ...');
+         dataToSend = data.toString();
+        });
+        // in close event we are sure that stream from child process is closed
+        python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        response_json = {
+            "messsage": "Python Executed",
+            "data": dataToSend.toString()
+        }
+        res.send(response_json).status(200);
+        });
     });
 });
 

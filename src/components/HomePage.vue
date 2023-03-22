@@ -56,13 +56,6 @@ export default {
             await fetch('http://localhost:3000/api/upload', {
                 method: 'POST',
                 body: formData
-            }).then(response => {
-                if (response.status == 200) {
-                    //redirect to results page
-                    window.location.href = "http://localhost:8080/result"
-                } else {
-                    alert("Error uploading file")
-                }
             })
         }
     }
