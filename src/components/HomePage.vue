@@ -1,11 +1,10 @@
 <template>
     <TopHeader v-show="show"/>
-    <transition name="fade">
-    <div class="container">
+    <div class="container" style="margin-top: 120px;">
         <h1>
             Resume Reviewer
         </h1>
-        <div class="home">
+        <div class="home" style="margin-top: 70px;">
             <h1>Welcome {{firstName}}</h1>
             <div id="typed"></div>
             <p>Resume Reviewer is a web application that allows you to upload your resume and get it reviewed based on your role preference</p>
@@ -17,13 +16,18 @@
         <div class="home">
             <h1>Upload your resume</h1>
             <div class="custom-file-upload">
-                <input type="file" name="fileUpload" id="fileUpload" @change="file = $event.target.files[0]" />
-                <button id="upload" class="space-button" v-on:click="uploadFile()">Upload</button>
+                <!-- <input type="file" name="fileUpload" id="fileUpload" @change="file = $event.target.files[0]" /> -->
+                <button id="upload" class="space-button" v-on:click="uploadFile">Upload</button>
+                
             </div>
             <p>{{fileName}}</p>
         </div>
+        <div class="home">
+            <h1>View your results</h1>
+            <p>View your results and download the report</p>
+            <router-link to="/result" v-if="viewResult">View Results</router-link>
+        </div>
     </div>
-    </transition>
     
     
 
@@ -31,6 +35,7 @@
 <script>
 
 import TopHeader from './TopHeader.vue'
+// import axios from 'axios'
 
 export default {
     name:'HomePage',
@@ -39,14 +44,19 @@ export default {
    },
     data() {
         return {
+            username: '',
             firstName: '',
             fileName: '',
             file: 'null',
-            show: false
+            show: false,
+            data : ' ',
+            viewResult: false
         }
     },
     methods: {
     async uploadFile() {
+        console.log("Upload File")
+        /*
         const fileUpload = document.querySelector('#fileUpload')
         if (fileUpload.files.length <= 0) {
             return alert("Please select a file to upload")
@@ -55,20 +65,33 @@ export default {
             formData.append('fileUpload', fileUpload.files[0]);
             await fetch('http://localhost:3000/api/upload', {
                 method: 'POST',
-                body: formData
+                body: formData,
             }).then(response => response.json())
             .then(data => {
                 console.log(data)
-                this.$router.push('/result')
+                this.data = data
+                this.viewResult = true
             })
             .catch(error => {
                 console.error(error)
             })
+            let data_to_save = {
+                username: this.username,
+                score: this.data
+            }
+            console.log(data_to_save)
+            const response = await axios.post('http://localhost:3000/api/savescore', {              
+                data_to_save
+            })
+            console.log(response)
+            */
+           console.log("redirecting to result page")
+           this.$router.push({name: 'resresult', params: {username: this.username}, replace: true})
         }
-    }
-},
+    },
     created() {
         console.log("Home Page")
+        this.username = this.$route.params.username
     },
     mounted() {
         this.show = true
@@ -156,7 +179,8 @@ export default {
 }
 
 .home {
-    margin-top: 100px;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 .fade-in-enter-active, .fade-in-leave-active {
     transition: opacity .5s

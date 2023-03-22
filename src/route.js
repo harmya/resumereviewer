@@ -24,20 +24,19 @@ const routes = [
         }
     },
     {
-        name: 'signup',
-        component: SignUp,
-        path: '/signup',
+        name: 'resresult',
+        component: ResResult,
+        path: '/result',
         meta: {
             transition: 'fade'
         }
     },
     {
-        name: 'resresult',
-        component: ResResult,
-        path: '/result',
+        name: 'signup',
+        component: SignUp,
+        path: '/signup',
         meta: {
-            transition: 'fade',
-            reload: true
+            transition: 'fade'
         }
     }
 ];
@@ -46,7 +45,6 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
-
 
 
 export default router;

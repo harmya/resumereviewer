@@ -53,6 +53,17 @@ app.post ('/api/upload', (req, res) => {
     });
 });
 
+app.post ('/api/savescore', async(req, res) => {
+    try {
+        scoreInfo = req.body;
+        console.log(scoreInfo);
+        const user = await addScoreToDatabase(scoreInfo);
+        res.status(200).send('Score Added Successfully');
+    } catch (err) {
+        console.log(err.stack)
+        res.status(500).send('Server Error, Please try again later');
+    }
+});
 
 //route to handle user registration
 app.post('/api/login', async (req, res) => {
@@ -171,6 +182,14 @@ async function listDatabases(client) {
     console.log("Databases:");
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 }
- 
 
-
+async function addScoreToDatabase(score_data) {
+    console.log(`Adding score for user '${score_data.data_to_save.username}'`)
+    console.log(score_data);
+    save_data = {
+        "username": score_data.data_to_save.username,
+        "score": score_data.data_to_save.score,
+    }
+    const result = await client.db("user-authentication").collection("scores").insertOne(save_data);
+    console.log(`New score created with the following id: ${result.insertedId}`);
+}

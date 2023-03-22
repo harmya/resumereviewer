@@ -98,7 +98,10 @@ export default {
                 this.dynamic_class_password = true
                 this.message_password = ''
                 this.class_name_password = ''
-                this.$router.push('/home')
+                let username_data = {
+                    username: this.username
+                }
+                this.$router.push({ name: 'home', params: username_data })
             }
         }
     }

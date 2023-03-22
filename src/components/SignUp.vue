@@ -72,8 +72,10 @@ export default {
                 password: hash_password
             })
             console.log(response)
-            this.$router.push({name: 'home'})
-            
+            let username_data = {
+                username: this.username
+            }
+            this.$router.push({name: 'home', params: {username_data}})
         },
         async checkUsername() {
             if (this.username == '' ) {
