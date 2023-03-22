@@ -19,6 +19,7 @@ app.get ('/api/upload', (req, res) => {
 
 let fs = require('fs');
 let formidable = require('formidable');
+const { spawn } = require('child_process');
 
 app.post ('/api/upload', (req, res) => {
     console.log("uploading file");
@@ -31,10 +32,15 @@ app.post ('/api/upload', (req, res) => {
         let newpath = '/Users/harmyabhatt/resumeReviewer/database/uploadedResumes/' + file.fileUpload.originalFilename;
         
         fs.rename(filepath, newpath, function() {
-            console.log('File uploaded and moved!');
+             console.log('File uploaded and moved!');
         });
+        res.send(
+            {
+                "message": "File uploaded successfully",
+                "newpath": newpath
+            }
+        ).status(200);
     });
-    res.status(200).send();
 });
 
 

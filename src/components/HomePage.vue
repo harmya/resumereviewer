@@ -17,10 +17,8 @@
         <div class="home">
             <h1>Upload your resume</h1>
             <div class="custom-file-upload">
-                <form action="http://localhost:3000/api/upload" method="post" enctype="multipart/form-data">
-                    <input type="file" name="fileUpload" id="fileUpload" @change="file = $event.target.files[0]" />
-                    <button id="upload" class="space-button" v-on:click="uploadFile()">Upload</button>
-                </form>
+                <input type="file" name="fileUpload" id="fileUpload" @change="file = $event.target.files[0]" />
+                <button id="upload" class="space-button" v-on:click="uploadFile()">Upload</button>
             </div>
             <p>{{fileName}}</p>
         </div>
@@ -51,23 +49,22 @@ export default {
     async uploadFile() {
         const fileUpload = document.querySelector('#fileUpload')
         if (fileUpload.files.length <= 0) {
-            alert("Please select a file to upload")
-            return
+            return alert("Please select a file to upload")
+        } else {
+            const formData = new FormData()
+            formData.append('fileUpload', fileUpload.files[0]);
+            await fetch('http://localhost:3000/api/upload', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.status == 200) {
+                    //redirect to results page
+                    window.location.href = "http://localhost:8080/result"
+                } else {
+                    alert("Error uploading file")
+                }
+            })
         }
-        const formData = new FormData()
-        formData.append('fileUpload', fileUpload.files[0]);
-        await fetch('http://localhost:3000/api/upload', {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.status == 200) {
-                //redirect to results page
-                window.location.href = "http://localhost:8080/result"
-
-            } else {
-                alert("Error uploading file")
-            }
-        })
     }
 },
     created() {
@@ -168,5 +165,7 @@ export default {
     opacity: 0
 }
 
-
+html {
+  scroll-behavior: smooth;
+}
 </style>
