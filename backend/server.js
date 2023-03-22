@@ -35,9 +35,10 @@ app.post ('/api/upload', (req, res) => {
              console.log('File uploaded and moved!');
         });
 
+        file_name = file.fileUpload.originalFilename;
         var dataToSend;
         // spawn new child process to call the python script
-        const python = spawn('python3', ['resumeAnalysis.py']);
+        const python = spawn('python3', ['resumeAnalysis.py', file_name]);
         // collect data from script
         python.stdout.on('data', function (data) {
          console.log('Pipe data from python script ...');
@@ -46,10 +47,7 @@ app.post ('/api/upload', (req, res) => {
         // in close event we are sure that stream from child process is closed
         python.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
-        response_json = {
-            "messsage": "Python Executed",
-            "data": dataToSend.toString()
-        }
+        response_json = dataToSend
         res.send(response_json).status(200);
         });
     });

@@ -23,6 +23,12 @@ export default {
     },
     methods: {
         
+    },
+    created() {
+        console.log("Result Page")
+    },
+    mounted() {
+        
     }
 }
 </script>

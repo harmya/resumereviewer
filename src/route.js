@@ -36,7 +36,8 @@ const routes = [
         component: ResResult,
         path: '/result',
         meta: {
-            transition: 'fade'
+            transition: 'fade',
+            reload: true
         }
     }
 ];

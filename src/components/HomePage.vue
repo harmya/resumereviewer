@@ -56,6 +56,13 @@ export default {
             await fetch('http://localhost:3000/api/upload', {
                 method: 'POST',
                 body: formData
+            }).then(response => response.json())
+            .then(data => {
+                console.log(data)
+                this.$router.push('/result')
+            })
+            .catch(error => {
+                console.error(error)
             })
         }
     }
