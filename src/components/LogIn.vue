@@ -1,6 +1,12 @@
 <template>
+    
     <transition name="fade">
     <div class="container">
+        <h1>
+        Resume Reviewer
+        </h1>
+        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="avatar" 
+        style="height: 100px; width: 100px;">
         <h1>
             Log In
         </h1>
@@ -122,5 +128,7 @@ export default {
 .success {
     color: green;
 }
-
+.container {
+    margin-top: 50px;
+}
 </style>

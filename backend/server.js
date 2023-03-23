@@ -212,7 +212,8 @@ async function addScoreToDatabase(score_data) {
 
 async function findScore(query) {
     console.log(`Looking for a score for user '${query.username}'`)
-    const score = await client.db("user-authentication").collection("scores").findOne(query);
+    // get the score from the database which is last in the list
+    const score = await client.db("user-authentication").collection("scores").findOne(query)
     if (score) {
         console.log(`Found a score for user '${query.username}'`);
     } else {

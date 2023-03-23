@@ -1,5 +1,11 @@
 <template>
+    
     <div class="container">
+        <h1>
+        Resume Reviewer
+        </h1>
+        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="avatar" 
+        style="height: 100px; width: 100px;">
         <h1>Sign Up</h1>
         <div class="inputs">
             <label for="name">Enter you Name</label>
@@ -180,8 +186,8 @@ export default {
 
 <style>
 .container {
+    margin-top: 0%;
     display: table;
-    margin-top: 10vh;
     margin-left: auto;
     margin-right: auto;
     flex-direction: column;
