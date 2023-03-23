@@ -46,7 +46,6 @@ export default {
     methods: {
         async login() {
             console.log("Sign In")
-            console.log(this.username, this.password)
             if (this.username == '' || this.username == null || this.password == '' || this.password == null) {
                 if (this.username == '' || this.username == null) {
                     this.dynamic_class_username = false

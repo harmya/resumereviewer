@@ -96,7 +96,23 @@ app.post('/api/login', async (req, res) => {
         res.status(500).send('Server Error, Please try again later');
     }
 });
-
+app.post('/api/score', async (req, res) => {
+    try {
+        console.log(req.query);
+        username = req.body.username;
+        query = { username: username };
+        const score = await findScore(query);
+        console.log(score);
+        if (score == 0) {
+            res.status(200).send("NO_SCORE");
+            return;
+        }
+        res.status(200).send(score);
+    } catch (err) {
+        console.log(err.stack)
+        res.status(500).send('Server Error, Please try again later');
+    }
+});
 app.get('/api/signup', async (req, res) => {
     try {
         console.log(req.query);
@@ -192,4 +208,19 @@ async function addScoreToDatabase(score_data) {
     }
     const result = await client.db("user-authentication").collection("scores").insertOne(save_data);
     console.log(`New score created with the following id: ${result.insertedId}`);
+}
+
+async function findScore(query) {
+    console.log(`Looking for a score for user '${query.username}'`)
+    const score = await client.db("user-authentication").collection("scores").findOne(query);
+    if (score) {
+        console.log(`Found a score for user '${query.username}'`);
+    } else {
+        return 0;
+    }
+    // delete this score from the database
+    const result = await client.db("user-authentication").collection("scores").deleteOne(query);
+    console.log(`Deleted score with the following id: ${result.deletedCount}`)
+    console.log(score.score);
+    return score.score;
 }
