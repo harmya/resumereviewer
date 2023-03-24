@@ -154,8 +154,3 @@ json_data = {
 res = json.dumps(json_data)
 
 print(res)
-
-
-
-
-
