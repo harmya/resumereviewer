@@ -23,4 +23,4 @@ Authentication: JSON Web Tokens (JWT)
 Text Analysis: Python
 
 Demo: <br> <br>
-![Alt Text]()
+![Alt Text](https://github.com/harmya/resumereviewer/blob/master/resume.gif)
